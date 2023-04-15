@@ -6,7 +6,7 @@
      Duration = "2";
  })
 _G.enable = false
-_G.color = Color3.fromRGB(255,140,0)
+_G.color = Color3.fromRGB(255,20,147)
 _G.toggle_keybind = "p"
 _G.swith_nigga = 't' 
 _G.method = "MousePos"
