@@ -1,0 +1,142 @@
+
+local configs = { -- main aimlock settings
+    Main = {
+        Enabled = false,
+        Aimlockkey = "n",
+        Prediction = 0.13093,
+        Aimpart = 'HumanoidRootPart', -- Head, UpperTorso, HumanoidRootPart, LowerTorso
+        Notifications = true,
+        AirshotFunc = true
+
+    },
+    Tracer = {
+        TracerThickness = 1.0,
+        TracerTransparency = 0.7,
+        TracerColor = Color3.fromRGB(255,0,0)
+    }
+				}
+
+
+local RunService = game:GetService("RunService")
+local CurrentCamera = game:GetService "Workspace".CurrentCamera
+local Mouse = game.Players.LocalPlayer:GetMouse()
+local inset = game:GetService("GuiService"):GetGuiInset().Y
+
+local Line = Drawing.new("Line")
+local Plr
+
+function TargetNotif()
+	FinalNotifString = tostring(
+                                " Name: "..tostring(Plr.Name)..
+                                "\n Wanted: "..tostring(Plr:WaitForChild("leaderstats").Wanted.Value)..
+                                " Health: "..tostring(math.floor(Plr.Character:WaitForChild("Humanoid").Health))..
+                                "\n Balance: "..tostring(Plr.DataFolder.Currency.Value)..
+                                " Id: "..tostring(Plr.UserId)
+                                          )
+                    if (Plr.DataFolder.Information:FindFirstChild("ArmorSave"))
+                        then
+                        FinalNotifString = FinalNotifString .. "\n Armor: "..tostring(Plr.DataFolder.Information.ArmorSave.Value) --	
+                    end
+                    if (Plr.DataFolder.Information:FindFirstChild("Crew"))
+                        then
+                        FinalNotifString = FinalNotifString .. " Crew: "..tostring(Plr.DataFolder.Information.Crew.Value) --
+                    end
+					game.StarterGui:SetCore("SendNotification", {
+							Title = "Display: "..tostring(Plr.Character.Humanoid.DisplayName),
+							Text = FinalNotifString,
+							Duration = 40
+						})
+	end
+
+mlplr = game.Players.LocalPlayer
+    mmouse1 = mlplr:GetMouse()
+    mmouse1.KeyDown:connect(function(key)
+         if key == "m" then
+              TargetNotif() --notifinfo()
+         end
+    end)
+
+Mouse.KeyDown:Connect(function(KeyPressed)
+    if KeyPressed == (configs.Main.Aimlockkey) then
+        if configs.Main.Enabled == true then
+            configs.Main.Enabled = false
+            if configs.Main.Notifications == true then
+                Plr = FindClosestPlayer()
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Aim";
+                    Text = "Unlocked :)",
+					Icon="rbxthumb://type=Asset&id=10871478850&w=150&h=150",
+                    Duration = 5
+                }) --[[ ]]
+            end
+        else
+            Plr = FindClosestPlayer()
+            configs.Main.Enabled = true
+            if configs.Main.Notifications == true then
+               TargetNotif()
+	end
+        end
+    end
+end)
+
+function FindClosestPlayer()
+    local closestPlayer
+    local shortestDistance = math.huge
+
+    for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("Humanoid") and
+            v.Character.Humanoid.Health ~= 0 and v.Character:FindFirstChild("HumanoidRootPart") then
+            local pos = CurrentCamera:WorldToViewportPoint(v.Character.PrimaryPart.Position)
+            local magnitude = (Vector2.new(pos.X, pos.Y) - Vector2.new(Mouse.X, Mouse.Y)).magnitude
+            if magnitude < shortestDistance then
+                closestPlayer = v
+                shortestDistance = magnitude
+            end
+        end
+    end
+    return closestPlayer
+end
+
+RunService.Stepped:connect(function()
+    if configs.Main.Enabled == true then
+        local Vector = CurrentCamera:worldToViewportPoint(Plr.Character[configs.Main.Aimpart].Position +
+                                                              (Plr.Character.HumanoidRootPart.Velocity *
+                                                                  configs.Main.Prediction))
+        Line.Color = configs.Tracer.TracerColor
+        Line.Thickness = configs.Tracer.TracerThickness
+        Line.Transparency = configs.Tracer.TracerTransparency
+
+        Line.From = Vector2.new(Mouse.X, Mouse.Y + inset)
+        Line.To = Vector2.new(Vector.X, Vector.Y)
+        Line.Visible = true
+    elseif configs.Main.Enabled == false then
+        Line.Visible = false
+    end
+end)
+
+local mt = getrawmetatable(game)
+local old = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(...)
+    local args = {...}
+    if configs.Main.Enabled and getnamecallmethod() == "FireServer" and args[2] == "UpdateMousePos" then
+        args[3] = Plr.Character[configs.Main.Aimpart].Position +
+                      (Plr.Character[configs.Main.Aimpart].Velocity * configs.Main.Prediction)
+        return old(unpack(args))
+    end
+    return old(...)
+end)
+
+if configs.Main.AirshotFunc == true then
+    if Plr.Character.Humanoid.Jump == true and Plr.Character.Humanoid.FloorMaterial == Enum.Material.Air then
+        settings.config.Part = "RightFoot"
+    else
+        Plr.Character:WaitForChild("Humanoid").StateChanged:Connect(function(old,new)
+            if new == Enum.HumanoidStateType.Freefall then
+                settings.config.Part = "RightFoot"
+            else
+                settings.config.Part = "LowerTorso"
+            end
+        end)
+    end
+end
