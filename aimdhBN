@@ -2,7 +2,7 @@
 local configs = { -- main aimlock settings
     Main = {
         Enabled = false,
-        Aimlockkey = "n",
+        Aimlockkey = "b",
         Prediction = 0.13093,
         Aimpart = 'HumanoidRootPart', -- Head, UpperTorso, HumanoidRootPart, LowerTorso
         Notifications = true,
@@ -51,7 +51,7 @@ function TargetNotif()
 mlplr = game.Players.LocalPlayer
     mmouse1 = mlplr:GetMouse()
     mmouse1.KeyDown:connect(function(key)
-         if key == "m" then
+         if key == "n" then
               TargetNotif() --notifinfo()
          end
     end)
