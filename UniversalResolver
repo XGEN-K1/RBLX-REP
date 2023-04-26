@@ -1,0 +1,78 @@
+-- Universal resolver made by Actyrn#7104
+
+Actyrn7104 = {
+	Enabled = true, -- If the resolver is enabled or disabled
+	Bind = Enum.KeyCode.U, -- Make sure it has the Enum.KeyCode in front, and the keybind is uppercase
+	Notify = true, -- Sends notification when toggled
+	Prediction = 16, -- 16 is the best Prediction, don't change unless you know what you're doing
+	Type = "With Pred" -- Modes: "With Pred", "Break Pred"
+}
+
+-- Loadstring   loadstring(game:HttpGet("https://pastebin.com/raw/b0Qaf3aH"))() or
+-- Vars
+
+local runService = game:GetService("RunService")
+local userInput = game:GetService("UserInputService")
+local starterGui = game:GetService("StarterGui")
+local players = game:GetService("Players")
+
+local inputBegan = userInput.InputBegan
+local player = players.LocalPlayer
+
+-- Funcs
+
+local sendNotif = function(text)
+	starterGui:SetCore("SendNotification", {
+		Title = "Uni-Resolver | Actyrn#7104",
+		Text = text,
+		Duration = 2.5
+	})
+end
+
+-- Code
+
+if not Actyrn7104 then
+	sendNotif("Please use loadstring!")
+	
+	return
+end
+
+inputBegan:Connect(function(key)
+	if key.KeyCode == Actyrn7104.Bind and not userInput:GetFocusedTextBox() then
+		if Actyrn7104.Enabled then
+			Actyrn7104.Enabled = false
+
+			if Actyrn7104.Notify then
+				sendNotif("Disabled")
+			end
+		else
+			Actyrn7104.Enabled = true
+
+			if Actyrn7104.Notify then
+				sendNotif("Enabled")
+			end
+		end
+	end
+end)
+
+runService.Heartbeat:Connect(function()
+	for i, Target in pairs(players:GetPlayers()) do
+		if Target ~= player then
+			for i, Part in pairs(Target.Character:GetChildren()) do
+				if Actyrn7104.Enabled and Part:IsA("BasePart") then
+					if Actyrn7104.Type == "With Pred" then
+						Part.Velocity =
+							Target.Character.Humanoid.MoveDirection * Actyrn7104.Prediction
+						Part.AssemblyLinearVelocity =
+							Target.Character.Humanoid.MoveDirection * Actyrn7104.Prediction
+					else
+						Part.Velocity =
+							Part.Velocity * 0
+						Part.AssemblyLinearVelocity =
+							Part.AssemblyLinearVelocity * 0
+					end
+				end
+			end
+		end
+	end
+end)
