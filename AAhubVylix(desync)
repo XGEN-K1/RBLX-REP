@@ -1,5 +1,5 @@
 -- Source fully made by Actyrn#7104, except the UI library ofc
--- USE THE LOADSTRING FOR AUTOMATIC UPDATES!!
+-- USE THE LOADSTRING FOR AUTOMATIC UPDATES!!  --loadstring(game:HttpGet("https://pastebin.com/raw/STvUC3V3"))()
 
 repeat wait() until game:IsLoaded()
 
