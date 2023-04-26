@@ -1,0 +1,7 @@
+lplr = game.Players.LocalPlayer
+mouse1 = lplr:GetMouse()
+mouse1.KeyDown:connect(function(key)
+     if key == "e" then
+          game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+     end
+end)
