@@ -23,7 +23,7 @@ local player = players.LocalPlayer
 
 local sendNotif = function(text)
 	starterGui:SetCore("SendNotification", {
-		Title = "Uni-Resolver | Actyrn#7104",
+		Title = "Uni-Resolver",
 		Text = text,
 		Duration = 2.5
 	})
