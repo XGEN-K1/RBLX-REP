@@ -1,5 +1,5 @@
 if game.PlaceId == 2788229376 or game.PlaceId == 7213786345 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/XGEN-K1/RBLX-REP/codespace-xgen-k1-automatic-space-acorn-wwgrj955x46c59p4/Infinite%20Yield%20for%20DH"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XGEN-K1/RBLX-REP/RBLX/Infinite%20Yield%20for%20DH"))()
 else
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/XGEN-K1/RBLX-REP/codespace-xgen-k1-automatic-space-acorn-wwgrj955x46c59p4/Infinite%20Yield"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XGEN-K1/RBLX-REP/RBLX/Infinite%20Yield"))()
 end
