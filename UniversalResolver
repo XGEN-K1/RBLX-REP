@@ -1,7 +1,7 @@
 -- Universal resolver made by Actyrn#7104
 
 Actyrn7104 = {
-	Enabled = true, -- If the resolver is enabled or disabled
+	Enabled = disabled, -- If the resolver is enabled or disabled
 	Bind = Enum.KeyCode.U, -- Make sure it has the Enum.KeyCode in front, and the keybind is uppercase
 	Notify = true, -- Sends notification when toggled
 	Prediction = 16, -- 16 is the best Prediction, don't change unless you know what you're doing
