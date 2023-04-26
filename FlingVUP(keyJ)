@@ -1,0 +1,102 @@
+-- if game.Players.LocalPlayer:IsInGroup(17263032) then (group whitelist EWWWWW)    
+    game.StarterGui:SetCore("SendNotification", {
+     Title = 'Aim viewer';
+     Text = '';
+     Icon = '';
+     Duration = "2";
+ })
+_G.enable = false
+_G.color = Color3.fromRGB(255,20,147)
+--_G.toggle_keybind = "p"
+--_G.swith_nigga = 't' 
+_G.method = "MousePos"
+
+local rs = game:GetService("RunService")
+local localPlayer = game.Players.LocalPlayer
+local mouse = localPlayer:GetMouse()
+local target;
+
+function sendnotifi(message)
+
+
+ game.StarterGui:SetCore("SendNotification", {
+     Title =  '';
+     Text = message;
+     Icon = '';
+     Duration = "2";
+ })
+
+ end
+
+
+getgenv().VelocityChanger = false
+getgenv().Velocity = Vector3.new(7000,70000,7000)
+getgenv().KeyBind = "j"
+
+local Players     = game:GetService("Players")
+local RunService  = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+local Character   = LocalPlayer.Character
+local RootPart    = Character:FindFirstChild("HumanoidRootPart")
+
+
+local Heartbeat, RStepped, Stepped = RunService.Heartbeat, RunService.RenderStepped, RunService.Stepped
+
+LocalPlayer.CharacterAdded:Connect(function(NewCharacter)
+ Character = NewCharacter
+end)
+
+local RVelocity, YVelocity = nil, 0.1
+function sendnotifi(message)
+
+
+ game.StarterGui:SetCore("SendNotification", {
+     Title =  '';
+     Text = message;
+     Icon = '';
+     Duration = "2";
+ })
+ end
+
+ UIS.InputBegan:Connect(function(input)
+     if input.KeyCode == Enum.KeyCode.J then
+         if VelocityChanger == false then
+             sendnotifi("Anti-Lock Disabled")
+         elseif VelocityChanger == true then
+             sendnotifi("Anti-Lock Enabled")
+         end
+     end
+ end)
+ 
+
+
+UIS.InputBegan:Connect(function(input)
+if not (UIS:GetFocusedTextBox()) then
+ if input.KeyCode == Enum.KeyCode.J then
+     if VelocityChanger then
+         VelocityChanger = false
+     else
+         VelocityChanger = true
+         task.spawn(function()
+                 while VelocityChanger do
+                     print("Running")
+                     if (not RootPart) or (not RootPart.Parent) or (not RootPart.Parent.Parent) then
+                         repeat task.wait() RootPart = Character:FindFirstChild("HumanoidRootPart") until RootPart ~= nil
+                     else
+                         RVelocity = RootPart.Velocity
+
+                         RootPart.Velocity = type(Velocity) == "vector" and Velocity or Velocity(RVelocity)
+
+                         RStepped:wait()
+
+                         RootPart.Velocity = RVelocity
+                     end
+                 Heartbeat:wait()
+             end
+         end)
+     end
+     end
+ end
+end)
