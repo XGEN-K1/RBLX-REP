@@ -1,2 +1,3 @@
 Height = getstring(1)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y + Height, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z))
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y + Height, game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z))
